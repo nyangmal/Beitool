@@ -14,6 +14,7 @@ import {login} from '@react-native-seoul/kakao-login';
 function LoginScreen({navigation}) {
   const loginProcess = async () => {
     const token = await login();
+    console.log(JSON.stringify(token));
     fetch('http://52.79.203.173:8080//login/kakao', {
       method: 'POST',
       headers: {

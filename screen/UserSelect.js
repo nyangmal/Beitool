@@ -42,7 +42,14 @@ function UserSelect({navigation}) {
             }}>
             사장님
           </Button>
-          <Button variant="outline">알바님</Button>
+          <Button
+            variant="outline"
+            onPress={() => {
+              setUserChoice('PlaceJoin');
+              setIsOpen(!isOpen);
+            }}>
+            알바님
+          </Button>
         </Button.Group>
         <Text marginTop="5" fontSize="md">
           회원님의 정보를 선택해주세요.
