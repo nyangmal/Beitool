@@ -31,7 +31,11 @@ export default function App() {
           name="UserSelect"
           component={UserSelect}
         />
-        <Stack.Screen name="PlaceRegister" component={PlaceRegister} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="PlaceRegister"
+          component={PlaceRegister}
+        />
         <Stack.Screen name="PlaceJoin" component={PlaceJoin} />
       </Stack.Navigator>
     </NavigationContainer>
