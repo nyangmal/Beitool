@@ -9,6 +9,7 @@ import LoginScreen from './screen/LoginScreen';
 import UserSelect from './screen/UserSelect';
 import PlaceRegister from './screen/PlaceRegister';
 import PlaceJoin from './screen/PlaceJoin';
+import MainScreen from './screen/MainScreen';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -36,7 +37,16 @@ export default function App() {
           name="PlaceRegister"
           component={PlaceRegister}
         />
-        <Stack.Screen name="PlaceJoin" component={PlaceJoin} />
+        <Stack.Screen
+          name="PlaceJoin"
+          component={PlaceJoin}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MainScreen"
+          component={MainScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
