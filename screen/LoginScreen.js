@@ -10,18 +10,22 @@ import {
 } from 'native-base';
 import {TouchableOpacity} from 'react-native';
 import {login} from '@react-native-seoul/kakao-login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LoginScreen({navigation}) {
   const loginProcess = async () => {
     const token = await login();
-    console.log(JSON.stringify(token));
-    fetch('http://52.79.203.173:8080/login/kakao', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(token),
-    }).then(res => res.json());
+    if (token) {
+      AsyncStorage.setItem('accessToken', token.accessToken);
+      fetch('http://52.79.203.173:8080/login/kakao', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(token),
+      }).then(res => res.json());
+      navigation.navigate('UserSelect');
+    }
   };
 
   return (
@@ -35,7 +39,11 @@ function LoginScreen({navigation}) {
             Beitool
           </Heading>
         </Box>
-        <TouchableOpacity activeOpacity={0.6} onPress={loginProcess}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => {
+            loginProcess();
+          }}>
           <Image source={require('../kakao_login.png')} />
         </TouchableOpacity>
         <Button

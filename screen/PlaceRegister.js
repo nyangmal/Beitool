@@ -71,7 +71,7 @@ function PlaceRegister() {
                 _dark={{
                   color: 'coolGray.800',
                 }}>
-                모든 입력란을 기입해 주세요
+                모든 입력란을 기입해 주세요!
               </Text>
               <IconButton
                 variant="unstyled"
@@ -87,7 +87,6 @@ function PlaceRegister() {
               placeholder="가게 이름"
               onChangeText={text => {
                 setPlaceName(text);
-                fieldFilled();
               }}
             />
             <Button
@@ -100,7 +99,6 @@ function PlaceRegister() {
               placeholder="상세 주소"
               onChangeText={text => {
                 setDetailAddr(text);
-                fieldFilled();
               }}
             />
           </Stack>
@@ -119,7 +117,6 @@ function PlaceRegister() {
                 onSelected={data => {
                   let temp = JSON.stringify(data.address);
                   setAddress(temp.replace(/"/g, ''));
-                  fieldFilled();
                   setShowModal(false);
                 }}
               />

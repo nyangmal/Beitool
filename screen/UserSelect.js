@@ -51,7 +51,7 @@ function UserSelect({navigation}) {
             알바님
           </Button>
         </Button.Group>
-        <Text marginTop="5" fontSize="md">
+        <Text marginTop="3" fontSize="md">
           회원님의 정보를 선택해주세요.
         </Text>
         <AlertDialog
@@ -62,7 +62,7 @@ function UserSelect({navigation}) {
             <AlertDialog.CloseButton />
             <AlertDialog.Header>회원 정보 선택</AlertDialog.Header>
             <AlertDialog.Body>
-              <Text>회원 정보는 추후 변경 할 수 있습니다.</Text>
+              <Text>회원 정보는 추후 변경할 수 있습니다.</Text>
               <Text>계속 진행하시겠습니까?</Text>
             </AlertDialog.Body>
             <AlertDialog.Footer>

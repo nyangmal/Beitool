@@ -7,7 +7,7 @@ function MainScreen() {
     <NativeBaseProvider>
       <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
         <Text marginBottom="50" fontSize="lg">
-          가게 가입 페이지
+          메인스크린
         </Text>
       </Box>
     </NativeBaseProvider>
