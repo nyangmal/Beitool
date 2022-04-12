@@ -1,0 +1,6 @@
+module Pods_Beitool_BeitoolTests {
+  umbrella header "Pods-Beitool-BeitoolTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

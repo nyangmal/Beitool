@@ -3,7 +3,7 @@ import React from 'react';
 import {LogBox} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-
+//npx react-native run-ios --simulator="iPhone SE (3rd generation)"
 import StartScreen from './screen/StartScreen';
 import LoginScreen from './screen/LoginScreen';
 import UserSelect from './screen/UserSelect';

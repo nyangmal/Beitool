@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
 import Postcode from '@actbase/react-daum-postcode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NativeBaseProvider,
   Box,
@@ -18,21 +19,37 @@ import {
   CloseIcon,
 } from 'native-base';
 
-function PlaceRegister() {
+function PlaceRegister({navigation}) {
   const [showModal, setShowModal] = useState(false);
   const [show, setShow] = useState(false);
   const [buttonAv, setButtonAv] = useState(false);
   const [placeName, setPlaceName] = useState('');
   const [address, setAddress] = useState('도로명 주소');
   const [detailAddr, setDetailAddr] = useState('');
-  const submitInfo = () => {
-    const tempData = {
+
+  const submitInfo = async () => {
+    const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
+    const presidentData = JSON.stringify({
+      status: 'President',
       placeName: placeName,
       address: address,
       detailAddr: detailAddr,
-    };
-    const jsonTempData = JSON.stringify(tempData);
-    console.log(tempData);
+      accessToken: token.accessToken,
+    });
+    fetch('http://52.79.203.173:8080/store/create/', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: presidentData,
+    })
+      .then(res => res.json())
+      .then(() => {
+        navigation.navigate('MainScreen'); //성공 시 이동
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
   };
 
   const fieldFilled = () => {
@@ -115,8 +132,7 @@ function PlaceRegister() {
                 style={{width: 330, height: 450}}
                 jsOptions={{animation: true}}
                 onSelected={data => {
-                  let temp = JSON.stringify(data.address);
-                  setAddress(temp.replace(/"/g, ''));
+                  setAddress(JSON.stringify(data.address).replace(/"/g, ''));
                   setShowModal(false);
                 }}
               />
@@ -131,7 +147,7 @@ function PlaceRegister() {
           }}
           disabled={!buttonAv}
           colorScheme={buttonAv === true ? 'primary' : 'gray'}>
-          제출하기
+          등록하기
         </Button>
       </Box>
     </NativeBaseProvider>

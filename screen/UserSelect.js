@@ -13,11 +13,12 @@ function UserSelect({navigation}) {
   const [isOpen, setIsOpen] = useState(false);
   const [userChoice, setUserChoice] = useState('');
   const onClose = () => setIsOpen(false);
+  const cancelRef = useRef(null);
+
   const pageChange = () => {
     setIsOpen(false);
     navigation.navigate(userChoice);
   };
-  const cancelRef = useRef(null);
 
   return (
     <NativeBaseProvider>
@@ -74,7 +75,11 @@ function UserSelect({navigation}) {
                   ref={cancelRef}>
                   아니오
                 </Button>
-                <Button colorScheme="primary" onPress={pageChange}>
+                <Button
+                  colorScheme="primary"
+                  onPress={() => {
+                    pageChange();
+                  }}>
                   네
                 </Button>
               </Button.Group>

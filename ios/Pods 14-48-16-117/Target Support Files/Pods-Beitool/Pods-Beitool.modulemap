@@ -1,0 +1,6 @@
+module Pods_Beitool {
+  umbrella header "Pods-Beitool-umbrella.h"
+
+  export *
+  module * { export * }
+}

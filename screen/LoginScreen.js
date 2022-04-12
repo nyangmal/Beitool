@@ -16,15 +16,29 @@ function LoginScreen({navigation}) {
   const loginProcess = async () => {
     const token = await login();
     if (token) {
-      AsyncStorage.setItem('accessToken', token.accessToken);
+      AsyncStorage.setItem(
+        'kakaoToken',
+        JSON.stringify({
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken,
+        }),
+      );
       fetch('http://52.79.203.173:8080/login/kakao', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify(token),
-      }).then(res => res.json());
-      navigation.navigate('UserSelect');
+        body: token,
+      })
+        .then(res => res.json())
+        .then(() => {
+          navigation.navigate('UserSelect');
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    } else {
+      console.log('토큰값 오류');
     }
   };
 
@@ -46,7 +60,7 @@ function LoginScreen({navigation}) {
           }}>
           <Image source={require('../kakao_login.png')} />
         </TouchableOpacity>
-        <Button
+        <Button //지워야 하는 버튼
           marginTop="5"
           onPress={() => {
             navigation.navigate('UserSelect');
