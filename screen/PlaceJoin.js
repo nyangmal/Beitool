@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NativeBaseProvider,
@@ -15,6 +15,7 @@ import {
   Collapse,
   IconButton,
   CloseIcon,
+  AlertDialog,
 } from 'native-base';
 
 function PlaceJoin({navigation}) {
@@ -22,9 +23,13 @@ function PlaceJoin({navigation}) {
   const [buttonAv, setButtonAv] = useState(false);
   const [userName, setUserName] = useState('');
   const [inviteCode, setInviteCode] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = useRef(null);
 
   const submitInfo = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
+    setIsOpen(false);
     const employeeData = JSON.stringify({
       status: 'Employee',
       userName: userName,
@@ -96,7 +101,7 @@ function PlaceJoin({navigation}) {
           </Alert>
         </Collapse>
         <FormControl isRequired>
-          <Stack space={4} mx="10" mt="8">
+          <Stack space={4} mx="16" mt="8">
             <Input
               placeholder="나의 이름"
               onChangeText={text => {
@@ -111,10 +116,42 @@ function PlaceJoin({navigation}) {
             />
           </Stack>
         </FormControl>
+        <AlertDialog
+          leastDestructiveRef={cancelRef}
+          isOpen={isOpen}
+          onClose={onClose}>
+          <AlertDialog.Content>
+            <AlertDialog.CloseButton />
+            <AlertDialog.Header>가게 등록</AlertDialog.Header>
+            <AlertDialog.Body>
+              <Text>가입 정보는 추후 변경할 수 있습니다.</Text>
+              <Text>계속 진행하시겠습니까?</Text>
+            </AlertDialog.Body>
+            <AlertDialog.Footer>
+              <Button.Group space={2}>
+                <Button
+                  variant="unstyled"
+                  colorScheme="coolGray"
+                  onPress={onClose}
+                  ref={cancelRef}>
+                  아니오
+                </Button>
+                <Button
+                  colorScheme="primary"
+                  onPress={() => {
+                    submitInfo();
+                  }}>
+                  네
+                </Button>
+              </Button.Group>
+            </AlertDialog.Footer>
+          </AlertDialog.Content>
+        </AlertDialog>
+
         <Button
           marginTop="5"
           onTouchStart={() => {
-            buttonAv === true ? submitInfo() : setShow(true);
+            buttonAv === true ? setIsOpen(!isOpen) : setShow(true);
           }}
           disabled={!buttonAv}
           colorScheme={buttonAv === true ? 'primary' : 'gray'}>

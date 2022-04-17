@@ -10,6 +10,7 @@ import UserSelect from './screen/UserSelect';
 import PlaceRegister from './screen/PlaceRegister';
 import PlaceJoin from './screen/PlaceJoin';
 import MainScreen from './screen/MainScreen';
+import CommuteScreen from './screen/CommuteScreen';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -33,19 +34,24 @@ export default function App() {
           component={UserSelect}
         />
         <Stack.Screen
-          options={{headerShown: false}}
           name="PlaceRegister"
           component={PlaceRegister}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="PlaceJoin"
           component={PlaceJoin}
-          options={{headerShown: false}}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="MainScreen"
           component={MainScreen}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CommuteScreen"
+          component={CommuteScreen}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
