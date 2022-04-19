@@ -4,7 +4,7 @@ import {NativeBaseProvider, Box, Text, Heading, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function StartScreen({navigation}) {
-  const [screenInfo, setScreenInfo] = useState('MainScreen'); //res.screen값 null예외처리
+  const [screenInfo, setScreenInfo] = useState('StartScreen'); //res.screen값 null예외처리
   const sendToken = async () => {
     const token = await AsyncStorage.getItem('kakaoToken');
     if (token) {

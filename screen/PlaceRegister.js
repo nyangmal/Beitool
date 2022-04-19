@@ -49,8 +49,10 @@ function PlaceRegister({navigation}) {
       body: presidentData,
     })
       .then(res => res.json())
-      .then(() => {
-        navigation.navigate('MainScreen'); //성공 시 이동
+      .then(res => {
+        res.message === 'Success'
+          ? navigation.navigate('MainScreen')
+          : console.log('failed');
       })
       .catch(err => {
         console.log(err.message);

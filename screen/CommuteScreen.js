@@ -8,18 +8,44 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import haversine from 'haversine-distance';
 
 function CommuteScreen() {
+  let workType = '';
+  let commuteDistance = 500;
   const [buttonAv, setButtonAv] = useState(true);
   const [userRegion, setUserRegion] = useState({
     latitude: 0,
     longitude: 0,
-    latitudeDelta: 0.0001,
-    longitudeDelta: 0.0001,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001,
   });
   const [placeRegion, setPlaceRegion] = useState({
-    //값 바꿔야함
-    latitude: 36.4859522,
-    longitude: 127.256717,
+    latitude: 0,
+    longitude: 0,
   });
+
+  const doCommute = async () => {
+    const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
+    const commuteData = JSON.stringify({
+      workType: workType,
+      accessToken: token.accessToken,
+    });
+    fetch('http://52.79.203.173:8080/work/commute/', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: commuteData,
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message === 'Success') {
+          setButtonAv(!buttonAv);
+          return true;
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
 
   const ShowToast = () => {
     const toast = useToast();
@@ -32,22 +58,41 @@ function CommuteScreen() {
         mx={{base: 'auto', md: 0}}>
         <Button
           disabled={!buttonAv}
-          colorScheme={buttonAv === true ? 'primary' : 'primary'}
+          colorScheme={buttonAv === true ? 'primary' : 'gray'}
           onPress={() => {
             getPosition();
-            calculateDistance() === true
-              ? console.log('허용')
-              : toast.show({
-                  title: '가게와 너무 멀리 떨어져 있습니다',
-                  placement: 'bottom',
-                });
+            workType = 'onWork';
+            if (calculateDistance() === true) {
+              console.log(doCommute());
+              doCommute() === true
+                ? toast.show({title: '출근 성공', placement: 'bottom'})
+                : console.log('failed');
+            } else {
+              toast.show({
+                title: '가게와 너무 멀리 떨어져 있습니다',
+                placement: 'bottom',
+              });
+            }
           }}>
           출근하기
         </Button>
         <Button
           disabled={buttonAv}
           colorScheme={buttonAv === true ? 'gray' : 'primary'}
-          onPress={() => {}}>
+          onPress={() => {
+            getPosition();
+            workType = 'offWork';
+            if (calculateDistance() === true) {
+              doCommute() === true
+                ? toast.show({title: '퇴근 성공', placement: 'bottom'})
+                : console.log('failed');
+            } else {
+              toast.show({
+                title: '가게와 너무 멀리 떨어져 있습니다',
+                placement: 'bottom',
+              });
+            }
+          }}>
           퇴근하기
         </Button>
       </Button.Group>
@@ -56,7 +101,7 @@ function CommuteScreen() {
 
   const getPlaceRegion = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
-    fetch('http://52.79.203.173:8080/map/', {
+    fetch('http://52.79.203.173:8080/store/map/', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -65,7 +110,10 @@ function CommuteScreen() {
     })
       .then(res => res.json())
       .then(res => {
-        setPlaceRegion({...res}); //res 처리 바꿔야함
+        commuteDistance = res.allowDistance;
+        res.message === 'working' ? setButtonAv(false) : setButtonAv(true);
+        const tempObj = {latitude: res.latitude, longitude: res.longitude};
+        setPlaceRegion({...tempObj});
       })
       .catch(err => {
         console.log(err.message);
@@ -77,8 +125,9 @@ function CommuteScreen() {
       latitude: userRegion.latitude,
       longitude: userRegion.longitude,
     };
-    const tempNum = 500; //출근 허용 거리
-    return haversine(placeRegion, userPosition) < tempNum ? true : false;
+    return haversine(placeRegion, userPosition) < commuteDistance
+      ? true
+      : false;
   };
 
   const getPosition = () => {
@@ -87,15 +136,14 @@ function CommuteScreen() {
       const tempObj = {
         latitude: latitude,
         longitude: longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitudeDelta: 0.008,
+        longitudeDelta: 0.008,
       };
       setUserRegion({...tempObj});
     });
   };
 
   useEffect(() => {
-    getPlaceRegion();
     if (Platform.OS === 'ios') {
       Geolocation.requestAuthorization('always');
     }
@@ -117,13 +165,14 @@ function CommuteScreen() {
             longitudeDelta: 5,
           }}
           onMapReady={() => {
+            getPlaceRegion();
             this.mapView.animateToRegion(userRegion, 0);
           }}
           showsUserLocation={true}>
-          <Marker //가게 위치로 바꿔줘야함
+          <Marker
             coordinate={{
-              latitude: userRegion.latitude,
-              longitude: userRegion.longitude,
+              latitude: placeRegion.latitude,
+              longitude: placeRegion.longitude,
             }}
           />
         </MapView>

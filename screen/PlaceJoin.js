@@ -37,7 +37,6 @@ function PlaceJoin({navigation}) {
       accessToken: token.accessToken,
     });
     fetch('http://52.79.203.173:8080/store/join/', {
-      //uri 바꿔야함
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -45,8 +44,10 @@ function PlaceJoin({navigation}) {
       body: employeeData,
     })
       .then(res => res.json())
-      .then(() => {
-        navigation.navigate('MainScreen'); //초대코드 유효성 검사 필요
+      .then(res => {
+        res.message === 'Success'
+          ? navigation.navigate('MainScreen')
+          : console.log('failed');
       })
       .catch(err => {
         console.log(err.message);

@@ -28,7 +28,7 @@ function LoginScreen({navigation}) {
         headers: {
           'Content-type': 'application/json',
         },
-        body: token,
+        body: JSON.stringify(token),
       })
         .then(res => res.json())
         .then(() => {
@@ -41,7 +41,6 @@ function LoginScreen({navigation}) {
       console.log('토큰값 오류');
     }
   };
-
   return (
     <NativeBaseProvider>
       <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
