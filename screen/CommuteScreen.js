@@ -10,6 +10,7 @@ import haversine from 'haversine-distance';
 function CommuteScreen() {
   let workType = '';
   let commuteDistance = 500;
+  let commuteSuccess = false;
   const [buttonAv, setButtonAv] = useState(true);
   const [userRegion, setUserRegion] = useState({
     latitude: 0,
@@ -24,11 +25,11 @@ function CommuteScreen() {
 
   const doCommute = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
-    const commuteData = JSON.stringify({
+    const commuteData = await JSON.stringify({
       workType: workType,
       accessToken: token.accessToken,
     });
-    fetch('http://52.79.203.173:8080/work/commute/', {
+    await fetch('http://52.79.203.173:8080/work/commute/', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -38,9 +39,9 @@ function CommuteScreen() {
       .then(res => res.json())
       .then(res => {
         if (res.message === 'Success') {
+          commuteSuccess = true;
           setButtonAv(!buttonAv);
-          return true;
-        }
+        } else commuteSuccess = false;
       })
       .catch(err => {
         console.log(err.message);
@@ -63,10 +64,11 @@ function CommuteScreen() {
             getPosition();
             workType = 'onWork';
             if (calculateDistance() === true) {
-              console.log(doCommute());
-              doCommute() === true
-                ? toast.show({title: '출근 성공', placement: 'bottom'})
-                : console.log('failed');
+              doCommute().then(() => {
+                commuteSuccess === true
+                  ? toast.show({title: '출근 성공', placement: 'bottom'})
+                  : console.log('failed');
+              });
             } else {
               toast.show({
                 title: '가게와 너무 멀리 떨어져 있습니다',
@@ -83,9 +85,11 @@ function CommuteScreen() {
             getPosition();
             workType = 'offWork';
             if (calculateDistance() === true) {
-              doCommute() === true
-                ? toast.show({title: '퇴근 성공', placement: 'bottom'})
-                : console.log('failed');
+              doCommute().then(() => {
+                commuteSuccess === true
+                  ? toast.show({title: '퇴근 성공', placement: 'bottom'})
+                  : console.log('failed');
+              });
             } else {
               toast.show({
                 title: '가게와 너무 멀리 떨어져 있습니다',
