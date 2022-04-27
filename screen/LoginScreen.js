@@ -23,7 +23,7 @@ function LoginScreen({navigation}) {
           refreshToken: token.refreshToken,
         }),
       );
-      fetch('http://52.79.203.173:8080/login/kakao', {
+      await fetch('http://52.79.203.173:8080/login/kakao', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -59,13 +59,6 @@ function LoginScreen({navigation}) {
           }}>
           <Image source={require('../kakao_login.png')} />
         </TouchableOpacity>
-        <Button //지워야 하는 버튼
-          marginTop="5"
-          onPress={() => {
-            navigation.navigate('UserSelect');
-          }}>
-          다음화면
-        </Button>
       </Box>
     </NativeBaseProvider>
   );

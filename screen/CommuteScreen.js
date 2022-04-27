@@ -105,12 +105,12 @@ function CommuteScreen() {
 
   const getPlaceRegion = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
-    fetch('http://52.79.203.173:8080/store/map/', {
+    await fetch('http://52.79.203.173:8080/store/map/', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(token.accessToken),
+      body: JSON.stringify({accessToken: token.accessToken}),
     })
       .then(res => res.json())
       .then(res => {

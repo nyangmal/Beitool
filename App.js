@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {LogBox} from 'react-native';
+import {LogBox, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 //npx react-native run-ios --simulator="iPhone SE (3rd generation)"
@@ -11,10 +11,12 @@ import PlaceRegister from './screen/PlaceRegister';
 import PlaceJoin from './screen/PlaceJoin';
 import MainScreen from './screen/MainScreen';
 import CommuteScreen from './screen/CommuteScreen';
+import PlaceChange from './screen/PlaceChange';
+import NoticeBoard from './screen/NoticeBoard';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
-export default function App() {
+export default function App({}) {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="StartScreen">
@@ -52,6 +54,22 @@ export default function App() {
           name="CommuteScreen"
           component={CommuteScreen}
           options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="PlaceChange"
+          component={PlaceChange}
+          options={{
+            title: '',
+            headerBackTitle: ' 돌아가기',
+          }}
+        />
+        <Stack.Screen
+          name="NoticeBoard"
+          component={NoticeBoard}
+          options={{
+            title: '',
+            headerBackTitle: ' 돌아가기',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
