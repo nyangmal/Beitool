@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {LogBox, Button} from 'react-native';
+import {LogBox} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 //npx react-native run-ios --simulator="iPhone SE (3rd generation)"
@@ -13,6 +13,9 @@ import MainScreen from './screen/MainScreen';
 import CommuteScreen from './screen/CommuteScreen';
 import PlaceChange from './screen/PlaceChange';
 import NoticeBoard from './screen/NoticeBoard';
+import CreateBoard from './screen/CreateBoard';
+import ViewBoard from './screen/ViewBoard';
+import ModifyBoard from './screen/ModifyBoard';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -60,16 +63,23 @@ export default function App({}) {
           component={PlaceChange}
           options={{
             title: '',
-            headerBackTitle: ' 돌아가기',
           }}
         />
+        <Stack.Screen name="NoticeBoard" component={NoticeBoard} />
         <Stack.Screen
-          name="NoticeBoard"
-          component={NoticeBoard}
-          options={{
-            title: '',
-            headerBackTitle: ' 돌아가기',
-          }}
+          name="CreateBoard"
+          component={CreateBoard}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="ViewBoard"
+          component={ViewBoard}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="ModifyBoard"
+          component={ModifyBoard}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

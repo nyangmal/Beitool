@@ -10,7 +10,10 @@ import {
   Spacer,
   FlatList,
   Pressable,
+  IconButton,
+  Icon,
 } from 'native-base';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function PlaceChange({navigation}) {
@@ -54,8 +57,30 @@ function PlaceChange({navigation}) {
   };
 
   useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <NativeBaseProvider>
+          <IconButton
+            icon={
+              <Icon
+                as={AntDesign}
+                name="left"
+                size="sm"
+                onPress={() => {
+                  navigation.reset({routes: [{name: 'MainScreen'}]});
+                }}
+              />
+            }
+            _icon={{
+              color: 'blue.500',
+              size: 'sm',
+            }}
+          />
+        </NativeBaseProvider>
+      ),
+    });
     getPlace();
-  }, []);
+  }, [navigation]);
 
   return (
     <NativeBaseProvider>

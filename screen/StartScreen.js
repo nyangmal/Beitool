@@ -4,7 +4,7 @@ import {NativeBaseProvider, Box, Text, Heading, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function StartScreen({navigation}) {
-  const [screenInfo, setScreenInfo] = useState('MainScreen'); //res.screen값 null예외처리
+  const [screenInfo, setScreenInfo] = useState('StartScreen');
   const sendToken = async () => {
     const token = await AsyncStorage.getItem('kakaoToken');
     if (token) {
@@ -36,11 +36,9 @@ function StartScreen({navigation}) {
   };
 
   useEffect(() => {
-    sendToken();
-    setTimeout(() => {
-      //연결없을 시 에러처리 필요
-      navigation.navigate(screenInfo);
-    }, 1500);
+    sendToken().then(() => {
+      navigation.navigate(screenInfo); //반복 설정 필요
+    });
   }, [navigation, screenInfo]);
 
   return (

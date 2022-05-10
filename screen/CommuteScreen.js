@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import {NativeBaseProvider, Box, Button, useToast} from 'native-base';
@@ -147,7 +147,7 @@ function CommuteScreen() {
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (Platform.OS === 'ios') {
       Geolocation.requestAuthorization('always');
     }

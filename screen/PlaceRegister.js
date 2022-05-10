@@ -51,7 +51,7 @@ function PlaceRegister({navigation}) {
       .then(res => res.json())
       .then(res => {
         res.message === 'Success'
-          ? navigation.navigate('MainScreen')
+          ? navigation.reset({routes: [{name: 'MainScreen'}]})
           : console.log('failed');
       })
       .catch(err => {

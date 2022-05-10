@@ -35,7 +35,6 @@ function MainScreen({navigation}) {
   };
 
   useLayoutEffect(() => {
-    console.log('test');
     getInfo();
   }, []);
   return (
@@ -58,7 +57,7 @@ function MainScreen({navigation}) {
           }}
           size="lg"
           colorScheme="blue">
-          출근 / 퇴근 하기
+          출근 - 퇴근 하기
         </Button>
         <Box w="90%" flex={1}>
           <Calendar />
