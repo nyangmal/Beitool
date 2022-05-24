@@ -28,7 +28,10 @@ function MainScreen({navigation}) {
       body: JSON.stringify({accessToken: token.accessToken}),
     })
       .then(res => res.json())
-      .then(res => setActiveStore(res.storeName))
+      .then(res => {
+        AsyncStorage.setItem('position', res.position);
+        setActiveStore(res.storeName);
+      })
       .catch(err => {
         console.log(err.message);
       });
@@ -75,13 +78,17 @@ function MainScreen({navigation}) {
               </Pressable>
             );
           }}>
-          <Menu.Item isDisabled>ToDo</Menu.Item>
+          <Menu.Item onPress={() => navigation.navigate('TodoList')}>
+            ToDo
+          </Menu.Item>
           <Menu.Item isDisabled>채팅</Menu.Item>
           <Menu.Item isDisabled>캘린더</Menu.Item>
           <Menu.Item onPress={() => navigation.navigate('NoticeBoard')}>
             게시판
           </Menu.Item>
-          <Menu.Item isDisabled>재고관리</Menu.Item>
+          <Menu.Item onPress={() => navigation.navigate('StockManage')}>
+            재고관리
+          </Menu.Item>
           <Menu.Item isDisabled>급여계산</Menu.Item>
           <Menu.Item isDisabled>환경설정</Menu.Item>
         </Menu>

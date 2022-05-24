@@ -54,7 +54,7 @@ function ViewBoard({route, navigation}) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
+        console.log('게시글 삭제');
       })
       .catch(err => {
         console.log(err.message);

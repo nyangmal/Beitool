@@ -394,6 +394,8 @@ PODS:
     - React-perflogger (= 0.67.4)
   - RNCAsyncStorage (1.17.3):
     - React-Core
+  - RNDateTimePicker (6.1.3):
+    - React-Core
   - RNGestureHandler (2.3.2):
     - React-Core
   - RNSVG (12.3.0):
@@ -464,6 +466,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -567,6 +570,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNSVG:
@@ -635,6 +640,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: a9d3c82ddf7ffdad9fbe6a81c6d6f8c06385464d
   ReactCommon: 07d0c460b9ba9af3eaf1b8f5abe7daaad28c9c4e
   RNCAsyncStorage: 005c0e2f09575360f142d0d1f1f15e4ec575b1af
+  RNDateTimePicker: 04b805a3cb4d386e5e6aff54b47ace7bad706fda
   RNGestureHandler: 6e757e487a4834e7280e98e9bac66d2d9c575e9c
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b

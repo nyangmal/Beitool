@@ -18,8 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function PlaceChange({navigation}) {
   const [placeInfo, setPlaceInfo] = useState([]); //글 정보 배열
-  const [activeStore, setActiveStore] = useState('가게 이름');
-  const [activePosition, setActivePosition] = useState('직급');
+  const [activeStore, setActiveStore] = useState('');
+  const [activePosition, setActivePosition] = useState('');
 
   const getPlace = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
@@ -86,9 +86,11 @@ function PlaceChange({navigation}) {
     <NativeBaseProvider>
       <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
         <Box flex={0.8} w="90%" textAlign="left" mt="5">
-          <Heading size="2xl">
-            {activeStore} - {activePosition}
-          </Heading>
+          <HStack>
+            <Text>현재 가게 </Text>
+            <Text>({activePosition})</Text>
+          </HStack>
+          <Heading size="xl">{activeStore}</Heading>
         </Box>
         <Box flex={8} w="100%" h="100%">
           <FlatList

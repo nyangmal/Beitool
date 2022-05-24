@@ -16,6 +16,9 @@ import NoticeBoard from './screen/NoticeBoard';
 import CreateBoard from './screen/CreateBoard';
 import ViewBoard from './screen/ViewBoard';
 import ModifyBoard from './screen/ModifyBoard';
+import TodoList from './screen/TodoList';
+import StockManage from './screen/StockManage';
+import CreateStock from './screen/CreateStock';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -61,11 +64,13 @@ export default function App({}) {
         <Stack.Screen
           name="PlaceChange"
           component={PlaceChange}
-          options={{
-            title: '',
-          }}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
         />
-        <Stack.Screen name="NoticeBoard" component={NoticeBoard} />
+        <Stack.Screen
+          name="NoticeBoard"
+          component={NoticeBoard}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
         <Stack.Screen
           name="CreateBoard"
           component={CreateBoard}
@@ -79,6 +84,21 @@ export default function App({}) {
         <Stack.Screen
           name="ModifyBoard"
           component={ModifyBoard}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="TodoList"
+          component={TodoList}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="StockManage"
+          component={StockManage}
+          options={{title: '', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="CreateStock"
+          component={CreateStock}
           options={{title: '', headerBackTitle: ' 돌아가기'}}
         />
       </Stack.Navigator>

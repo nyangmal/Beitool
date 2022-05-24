@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   NativeBaseProvider,
   Box,
@@ -22,7 +22,6 @@ function NoticeBoard({navigation}) {
   const [boardList, setBoardList] = useState({});
   const [buttonColor, setButtonColor] = useState(true);
   const [page, setPage] = useState(1);
-  let tempArr = [];
   const [pageArr, setPageArr] = useState([]);
 
   const getBoard = async boardType => {
@@ -41,44 +40,14 @@ function NoticeBoard({navigation}) {
       .then(res => res.json())
       .then(res => {
         setBoardList([...res.posts]);
-        if (res.message === 'Success') {
-          tempArr = [];
-          for (let index = 1; index < res.totalPage + 1; index++) {
-            tempArr.push(index);
-          }
-          setPageArr([...tempArr]);
-        }
+        setPageArr([...res.totalPage]);
       })
       .catch(err => {
         console.log(err.message);
       });
   };
 
-  async function changePageVal(itemValue) {
-    await setPage(itemValue);
-  }
-
   navigation.setOptions({
-    headerLeft: () => (
-      <NativeBaseProvider>
-        <IconButton
-          icon={
-            <Icon
-              as={AntDesign}
-              name="left"
-              size="sm"
-              onPress={() => {
-                navigation.reset({routes: [{name: 'MainScreen'}]});
-              }}
-            />
-          }
-          _icon={{
-            color: 'blue.500',
-            size: 'sm',
-          }}
-        />
-      </NativeBaseProvider>
-    ),
     headerTitle: () => (
       <NativeBaseProvider>
         <Button.Group
@@ -106,6 +75,11 @@ function NoticeBoard({navigation}) {
       </NativeBaseProvider>
     ),
   });
+
+  useEffect(() => {
+    getBoard(buttonColor === true ? 'Announcement' : 'Free');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   useLayoutEffect(() => {
     getBoard('Announcement');
@@ -172,9 +146,7 @@ function NoticeBoard({navigation}) {
             selectedValue={page}
             placeholder={`${page} 페이지`}
             onValueChange={itemValue => {
-              changePageVal(itemValue).then(() => {
-                getBoard(buttonColor === true ? 'Announcement' : 'Free');
-              });
+              setPage(itemValue);
             }}>
             {pageArr.map((a, i) => (
               <Select.Item label={`${a} 페이지`} value={a} />
