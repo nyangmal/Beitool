@@ -19,6 +19,12 @@ import ModifyBoard from './screen/ModifyBoard';
 import TodoList from './screen/TodoList';
 import StockManage from './screen/StockManage';
 import CreateStock from './screen/CreateStock';
+import ViewStock from './screen/ViewStock';
+import ModifyStock from './screen/ModifyStock';
+import WorkCalendar from './screen/WorkCalendar';
+import CalculateSalaryPresident from './screen/CalculateSalaryPresident';
+import CalculateSalaryEmployee from './screen/CalculateSalaryEmployee';
+import ConfigScreen from './screen/ConfigScreen';
 
 const Stack = createStackNavigator();
 LogBox.ignoreAllLogs();
@@ -59,47 +65,77 @@ export default function App({}) {
         <Stack.Screen
           name="CommuteScreen"
           component={CommuteScreen}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '출퇴근', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="PlaceChange"
           component={PlaceChange}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '가게변경', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="NoticeBoard"
           component={NoticeBoard}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '게시판', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="CreateBoard"
           component={CreateBoard}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '게시판 생성', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="ViewBoard"
           component={ViewBoard}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '게시판', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="ModifyBoard"
           component={ModifyBoard}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '게시판 수정', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="TodoList"
           component={TodoList}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: 'ToDo', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="StockManage"
           component={StockManage}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '재고관리', headerBackTitle: ' 돌아가기'}}
         />
         <Stack.Screen
           name="CreateStock"
           component={CreateStock}
-          options={{title: '', headerBackTitle: ' 돌아가기'}}
+          options={{title: '재고생성', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="ViewStock"
+          component={ViewStock}
+          options={{title: '재고관리', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="ModifyStock"
+          component={ModifyStock}
+          options={{title: '재고 수정', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="WorkCalendar"
+          component={WorkCalendar}
+          options={{title: '캘린더', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="CalculateSalaryPresident"
+          component={CalculateSalaryPresident}
+          options={{title: '급여 계산기', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="CalculateSalaryEmployee"
+          component={CalculateSalaryEmployee}
+          options={{title: '급여 계산기', headerBackTitle: ' 돌아가기'}}
+        />
+        <Stack.Screen
+          name="ConfigScreen"
+          component={ConfigScreen}
+          options={{title: '환경설정', headerBackTitle: ' 돌아가기'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

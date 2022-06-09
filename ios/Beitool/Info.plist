@@ -79,6 +79,10 @@
   	<string>기능 사용을 위해 현재 사용자의 위치를 불러옵니다.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
   	<false/>
+	 <key>NSPhotoLibraryUsageDescription</key>
+<string>Allow access to your photo gallery</string>
+<key>NSCameraUsageDescription</key>
+<string>Allow access to your camera</string>
  	 <key>UIAppFonts</key>
   	<array>
     <string>AntDesign.ttf</string>

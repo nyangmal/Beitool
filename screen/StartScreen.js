@@ -4,11 +4,11 @@ import {NativeBaseProvider, Box, Text, Heading, Spinner} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function StartScreen({navigation}) {
-  const [screenInfo, setScreenInfo] = useState('MainScreen');
+  const [screenInfo, setScreenInfo] = useState('StartScreen');
   const sendToken = async () => {
     const token = await AsyncStorage.getItem('kakaoToken');
     if (token) {
-      fetch('http://52.79.203.173:8080/login/kakao', {
+      fetch('http://52.79.203.173:8080/login/kakao/', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',

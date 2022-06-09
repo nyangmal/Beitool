@@ -3,8 +3,6 @@ import React, {useLayoutEffect, useState} from 'react';
 import {
   NativeBaseProvider,
   Box,
-  IconButton,
-  Button,
   Fab,
   Icon,
   FlatList,
@@ -14,25 +12,13 @@ import {
   Spacer,
   Pressable,
   Avatar,
+  IconButton,
 } from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function StockManage({navigation}) {
-  const tempData = {
-    stocks: [
-      {
-        id: 3,
-        title: '햄버거',
-        description: '햄버거의 특이사항입니다.',
-        expirationTime: [2022, 5, 20, 11, 22, 33],
-        modifyTime: [2022, 5, 20, 21, 34, 33, 99822700],
-        filePath: 'url',
-      },
-    ],
-    message: 'Success',
-  };
-
+  const [stockData, setStockData] = useState({});
   const getStock = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
     await fetch('http://52.79.203.173:8080/board/stock/read/', {
@@ -46,12 +32,35 @@ function StockManage({navigation}) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res); //재고관리 목록 저장필요
+        setStockData({...res});
       })
       .catch(err => {
         console.log(err.message);
       });
   };
+
+  navigation.setOptions({
+    headerLeft: () => (
+      <NativeBaseProvider>
+        <IconButton
+          icon={
+            <Icon
+              as={AntDesign}
+              name="left"
+              size="sm"
+              onPress={() => {
+                navigation.navigate('MainScreen');
+              }}
+            />
+          }
+          _icon={{
+            color: 'blue.500',
+            size: 'sm',
+          }}
+        />
+      </NativeBaseProvider>
+    ),
+  });
 
   useLayoutEffect(() => {
     getStock();
@@ -63,11 +72,11 @@ function StockManage({navigation}) {
       <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
         <Box flex={1} w="100%">
           <FlatList
-            data={tempData.stocks}
+            data={stockData.stocks}
             renderItem={({item}) => (
               <Pressable
                 onPress={() => {
-                  navigation.navigate('ViewStock');
+                  navigation.navigate('ViewStock', {id: item.id});
                 }}>
                 <Box
                   borderBottomWidth="1"

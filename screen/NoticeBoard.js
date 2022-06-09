@@ -3,7 +3,6 @@ import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   NativeBaseProvider,
   Box,
-  IconButton,
   Button,
   Fab,
   Icon,
@@ -14,6 +13,7 @@ import {
   Spacer,
   Pressable,
   Select,
+  IconButton,
 } from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -48,6 +48,26 @@ function NoticeBoard({navigation}) {
   };
 
   navigation.setOptions({
+    headerLeft: () => (
+      <NativeBaseProvider>
+        <IconButton
+          icon={
+            <Icon
+              as={AntDesign}
+              name="left"
+              size="sm"
+              onPress={() => {
+                navigation.navigate('MainScreen');
+              }}
+            />
+          }
+          _icon={{
+            color: 'blue.500',
+            size: 'sm',
+          }}
+        />
+      </NativeBaseProvider>
+    ),
     headerTitle: () => (
       <NativeBaseProvider>
         <Button.Group

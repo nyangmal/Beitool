@@ -12,7 +12,9 @@ import {
 } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
+let formData = new FormData();
 function CreateStock({navigation}) {
   const [buttonAv, setButtonAv] = useState(false);
   const [inputs, setInputs] = useState({
@@ -22,9 +24,10 @@ function CreateStock({navigation}) {
     expirationTime: '',
   });
   const {productName, description, quantity} = inputs;
+  const [imgUri, setImgUri] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  let fileName = '';
-  let filePath = '';
+  let productFileName = '';
+  let productFilePath = '';
 
   const onChange = (keyvalue, e) => {
     setInputs({
@@ -42,10 +45,10 @@ function CreateStock({navigation}) {
   };
 
   const handleConfirm = date => {
-    const temp = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+    const temp = JSON.stringify(date);
     setInputs({
       ...inputs,
-      expirationTime: temp,
+      expirationTime: temp.substr(1, 10) + ' ' + temp.substr(12, 5),
     });
     hideDatePicker();
   };
@@ -55,20 +58,20 @@ function CreateStock({navigation}) {
     await fetch('http://52.79.203.173:8080/board/stock/upload/file/', {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json',
+        'Content-type': 'multipart/form-data',
       },
-      body: JSON.stringify({
-        accessToken: token.accessToken,
-      }),
+      body: formData,
     })
       .then(res => res.json())
       .then(res => {
-        fileName = res.fileName;
-        filePath = res.filePath;
+        setButtonAv(false);
+        productFileName = res.productFileName;
+        productFilePath = res.productFilePath;
         console.log('사진 업로드');
       })
       .catch(err => {
         console.log(err.message);
+        setButtonAv(true);
       });
     await fetch('http://52.79.203.173:8080/board/stock/create/post/', {
       method: 'POST',
@@ -80,14 +83,19 @@ function CreateStock({navigation}) {
         productName: inputs.productName,
         quantity: Number(inputs.quantity),
         description: inputs.description,
-        expirationTime: inputs.expirationTime,
-        fileName: fileName,
-        filePath: filePath,
+        expirationTime: inputs.expirationTime.concat(':00'),
+        productFileName: productFileName,
+        productFilePath: productFilePath,
       }),
     })
       .then(res => res.json())
       .then(res => {
-        console.log('사진 업로드');
+        console.log('세부정보 업로드');
+        if (res.message === 'Success') {
+          setTimeout(() => {
+            navigation.reset({routes: [{name: 'StockManage'}]});
+          }, 1500);
+        }
       })
       .catch(err => {
         console.log(err.message);
@@ -102,18 +110,40 @@ function CreateStock({navigation}) {
       } else setButtonAv(true);
     }
   }, [inputs]);
+
   return (
     <NativeBaseProvider>
       <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
         <Box flex={1} justifyContent="center">
           <Image
-            source={{uri: null}}
-            alt="대체 텍스트"
+            borderRadius="5"
+            source={{uri: imgUri}}
+            alt="이미지가 없습니다."
             size="200"
             backgroundColor="coolGray.200"
           />
+          <Button
+            mt="2"
+            onPress={() => {
+              formData = new FormData();
+              ImagePicker.openPicker({
+                width: 300,
+                height: 300,
+                cropping: true,
+                mediaType: 'photo',
+              }).then(image => {
+                formData.append('file', {
+                  name: 'image',
+                  uri: image.path,
+                  type: image.mime,
+                });
+                setImgUri(image.path);
+              });
+            }}>
+            이미지 업로드
+          </Button>
         </Box>
-        <FormControl flex={1.5} mt="5" alignItems="center" textAlign="center">
+        <FormControl flex={1} alignItems="center" textAlign="center">
           <VStack space={8} w="100%" alignItems="center">
             <Input
               value={productName}
@@ -151,13 +181,16 @@ function CreateStock({navigation}) {
           </VStack>
         </FormControl>
         <Box flex={0.4}>
-          <Button isDisabled={!buttonAv}>등록하기</Button>
+          <Button isDisabled={!buttonAv} onPress={uploadStock}>
+            등록하기
+          </Button>
         </Box>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="datetime"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
+          timeZoneOffsetInMinutes
         />
       </Box>
     </NativeBaseProvider>

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   NativeBaseProvider,
   Box,
@@ -7,20 +7,28 @@ import {
   FormControl,
   Input,
   Button,
-  IconButton,
-  Icon,
+  VStack,
 } from 'native-base';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function CreateBoard({route, navigation}) {
-  let buttonAv = true;
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [buttonAv, setButtonAv] = useState(false);
+  const [inputs, setInputs] = useState({
+    title: '',
+    content: '',
+  });
+  const {title, content} = inputs;
   let boardType = '';
   route.params.boardType === true
     ? (boardType = 'announcement')
     : (boardType = 'free');
+
+  const onChange = (keyvalue, e) => {
+    setInputs({
+      ...inputs,
+      [keyvalue]: e,
+    });
+  };
 
   const createBoard = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('kakaoToken'));
@@ -31,55 +39,60 @@ function CreateBoard({route, navigation}) {
       },
       body: JSON.stringify({
         accessToken: token.accessToken,
-        title: title,
-        content: content,
+        title: inputs.title,
+        content: inputs.content,
       }),
     })
       .then(res => res.json())
       .then(res => {
-        console.log('생성');
+        console.log('게시물 생성');
+        if (res.message === 'Success') {
+          setButtonAv(false);
+          setTimeout(() => {
+            navigation.reset({routes: [{name: 'NoticeBoard'}]});
+          }, 1500);
+        }
       })
       .catch(err => {
         console.log(err.message);
       });
   };
 
+  useEffect(() => {
+    for (var a in inputs) {
+      if (inputs[a] === '') {
+        setButtonAv(false);
+        break;
+      } else setButtonAv(true);
+    }
+  }, [inputs]);
+
   return (
     <NativeBaseProvider>
       <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
-        <FormControl
-          alignItems="center"
-          onChangeText={
-            title === '' || content === ''
-              ? (buttonAv = true)
-              : (buttonAv = false)
-          }>
-          <FormControl.Label>글 제목</FormControl.Label>
-          <Input
-            w="80%"
-            mb="5"
-            onChangeText={text => {
-              setTitle(text);
-            }}
-          />
-          <FormControl.Label>글 내용</FormControl.Label>
-          <TextArea
-            w="80%"
-            h="70%"
-            mb="5"
-            onChangeText={text => {
-              setContent(text);
-            }}
-          />
-          <Button
-            isDisabled={buttonAv}
-            onPress={() =>
-              createBoard().then(
-                navigation.reset({routes: [{name: 'NoticeBoard'}]}),
-              )
-            }>
-            등록하기
-          </Button>
+        <FormControl flex={1} alignItems="center" textAlign="center" mt="5%">
+          <VStack space={4} w="100%" alignItems="center">
+            <FormControl.Label>글 제목</FormControl.Label>
+            <Input
+              w="80%"
+              value={title}
+              onChangeText={e => onChange('title', e)}
+            />
+            <FormControl.Label>글 내용</FormControl.Label>
+            <TextArea
+              value={content}
+              w="80%"
+              h="70%"
+              onChangeText={e => onChange('content', e)}
+            />
+            <Button
+              isDisabled={!buttonAv}
+              onPress={() => {
+                createBoard();
+              }}>
+              등록하기
+            </Button>
+          </VStack>
         </FormControl>
       </Box>
     </NativeBaseProvider>

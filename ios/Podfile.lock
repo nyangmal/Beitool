@@ -398,10 +398,20 @@ PODS:
     - React-Core
   - RNGestureHandler (2.3.2):
     - React-Core
+  - RNImageCropPicker (0.37.3):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.37.3)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.37.3):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNSVG (12.3.0):
     - React-Core
   - RNVectorIcons (9.1.0):
     - React-Core
+  - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -468,6 +478,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -497,6 +508,7 @@ SPEC REPOS:
     - KakaoSDKUser
     - libevent
     - OpenSSL-Universal
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -574,6 +586,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -642,11 +656,13 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 005c0e2f09575360f142d0d1f1f15e4ec575b1af
   RNDateTimePicker: 04b805a3cb4d386e5e6aff54b47ace7bad706fda
   RNGestureHandler: 6e757e487a4834e7280e98e9bac66d2d9c575e9c
+  RNImageCropPicker: 44e2807bc410741f35d4c45b6586aedfe3da39d2
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: d6b6a80659aa3e91aaba01d0012e7edcbedcbecd
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 5f57d90bd4141837cdc75c888e21135dc62bad38
+PODFILE CHECKSUM: 0780cf9264c690f2875624f030baf15d3fcbd183
 
 COCOAPODS: 1.11.3

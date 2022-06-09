@@ -23,7 +23,7 @@ function LoginScreen({navigation}) {
           refreshToken: token.refreshToken,
         }),
       );
-      await fetch('http://52.79.203.173:8080/login/kakao', {
+      await fetch('http://52.79.203.173:8080/login/kakao/', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -57,7 +57,7 @@ function LoginScreen({navigation}) {
           onPress={() => {
             loginProcess();
           }}>
-          <Image source={require('../kakao_login.png')} />
+          <Image alt="로그인 버튼" source={require('../kakao_login.png')} />
         </TouchableOpacity>
       </Box>
     </NativeBaseProvider>
